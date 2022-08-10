@@ -5,9 +5,7 @@ import axios from 'axios'
 // import _ from 'lodash'
 // import { numToKorean } from 'num-to-korean';
 
-
-
-
+import moment from 'moment'
 
 
 
@@ -30,26 +28,68 @@ export default function Home() {
 
     function fetchStockPrice() {
 
+        const fetchDate = localStorage.fetchDate
+        // console.log(fetchDate);
+        const today = moment().format('YYYYMMDD')
+        // console.log(fetchDate !== today);
+        if (fetchDate !== today) {
+
+            axios.get('https://raspy-base-75ec.kirklayer6590.workers.dev/')
+                .then(function (response) {
+                    console.log("fetching");
+                    // handle success
+
+                    const item = response.data.response.body.items.item[0]
+
+                    // console.log(item);
 
 
-        axios.get('https://raspy-base-75ec.kirklayer6590.workers.dev/')
-            .then(function (response) {
-                // handle success
-                console.log(response);
-                const data = response.data
-                console.log(data)
+                    setPrice(item.clpr)
+                    localStorage.setItem('clpr', item.clpr)
+                    localStorage.setItem('fetchDate', today)
+                })
+                .catch(function (error) {
+                    // handle error
+                    console.log(error);
+                })
+                .then(function () {
+                    // always executed
+                });
+        } else {
+            console.log('not fetching');
+            setPrice(localStorage.clpr)
+        }
 
-                console.log(data.response.body.items.item[0].clpr);
+        // 1안
+        // const fetchDate = localStorage.basDt
+        // // console.log(fetchDate);
+        // const today = moment().format('YYYYMMDD')
+        // // console.log(fetchDate !== today);
+        // if (fetchDate !== today) {
 
-                setPrice(data.response.body.items.item[0].clpr)
-            })
-            .catch(function (error) {
-                // handle error
-                console.log(error);
-            })
-            .then(function () {
-                // always executed
-            });
+        //     axios.get('https://raspy-base-75ec.kirklayer6590.workers.dev/')
+        //         .then(function (response) {
+        //             // handle success
+
+        //             const item = response.data.response.body.items.item[0]
+
+        //             // console.log(item);
+
+
+        //             setPrice(item.clpr)
+        //             localStorage.setItem('clpr',item.clpr)
+        //             localStorage.setItem('basDt', item.basDt)
+        //         })
+        //         .catch(function (error) {
+        //             // handle error
+        //             console.log(error);
+        //         })
+        //         .then(function () {
+        //             // always executed
+        //         });
+        // } else {
+        //     setPrice(localStorage.clpr)
+        // }
 
     }
 
