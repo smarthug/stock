@@ -193,17 +193,17 @@ export default function Home() {
     return (
         <ThemeProvider theme={darkTheme}>
             <CssBaseline />
-            <h3>삼성전자 현재가 : {price}원</h3>
+            <h3>삼성전자 현재가 : {price.toLocaleString()}원</h3>
             {/* <div>삼성전자 현재가</div> */}
             {/* <div>{price}원</div> */}
             <Grid container spacing={2} >
                 <Grid item xs={6}>
                     <div>보유KRW</div>
-                    <div>{krw}원</div>
+                    <div>{krw.toLocaleString()}원</div>
                 </Grid>
                 <Grid item xs={6}>
                     <div>총 보유자산</div>
-                    <div>{totalAsset}원</div>
+                    <div>{totalAsset.toLocaleString()}원</div>
                 </Grid>
             </Grid>
             <Divider />
