@@ -30,7 +30,7 @@ export default function Home() {
     const [evalMoney, setEvalMoney] = useState(price * stockQtt)
     const [averagePrice, setAveragePrice] = useState(spentMoney / stockQtt)
     const [krw, setKrw] = useState(localStorage.krw ?? 20000000)
-    const [totalAsset, setTotalAsset] = useState(krw + evalMoney)
+    const [totalAsset, setTotalAsset] = useState(+krw + +evalMoney)
 
     const qttRef = useRef()
     const costRef = useRef()
@@ -123,28 +123,34 @@ export default function Home() {
 
         // let stockQtt = localStorage.stockQtt ?? 0
         // let spentMoney = localStorage.spentMoney ?? 0
-
-        let tmpstockQtt = Number(stockQtt)
-        let tmpspentMoney = Number(spentMoney)
-
-        tmpstockQtt += Number(qttRef.current.value)
-        tmpspentMoney += Number(costRef.current.value)
-
         let tmpKrw = Number(krw) - Number(costRef.current.value)
 
-        localStorage.setItem('stockQtt', tmpstockQtt)
-        localStorage.setItem('spentMoney', tmpspentMoney)
+        if (tmpKrw < 0) {
+            alert("살 돈이 없습니다")
+        } else {
 
-        localStorage.setItem('krw', tmpKrw)
+            let tmpstockQtt = Number(stockQtt)
+            let tmpspentMoney = Number(spentMoney)
 
-        setStockQtt(tmpstockQtt)
-        setSpentMoney(tmpspentMoney)
+            tmpstockQtt += Number(qttRef.current.value)
+            tmpspentMoney += Number(costRef.current.value)
 
-        setEvalMoney(price * tmpstockQtt)
-        setAveragePrice(spentMoney / tmpstockQtt)
-        // 총 보유 krw 에서도 빼야하네 ..
-        setKrw(tmpKrw)
-        setTotalAsset(tmpKrw + (price * tmpstockQtt))
+
+            localStorage.setItem('stockQtt', tmpstockQtt)
+            localStorage.setItem('spentMoney', tmpspentMoney)
+
+            localStorage.setItem('krw', tmpKrw)
+
+            setStockQtt(tmpstockQtt)
+            setSpentMoney(tmpspentMoney)
+
+            setEvalMoney(price * tmpstockQtt)
+            setAveragePrice(tmpspentMoney / tmpstockQtt)
+            // 총 보유 krw 에서도 빼야하네 ..
+            setKrw(tmpKrw)
+            setTotalAsset(tmpKrw + (price * tmpstockQtt))
+        }
+
 
 
     }
@@ -156,21 +162,27 @@ export default function Home() {
         tmpstockQtt -= Number(qttRef.current.value)
         tmpspentMoney -= Number(costRef.current.value)
 
-        let tmpKrw = Number(krw) + Number(costRef.current.value)
+        if (tmpstockQtt < 0) {
+            alert("팔주식이 없습니다")
+        } else {
 
-        localStorage.setItem('stockQtt', tmpstockQtt)
-        localStorage.setItem('spentMoney', tmpspentMoney)
+            let tmpKrw = Number(krw) + Number(costRef.current.value)
 
-        localStorage.setItem('krw', tmpKrw)
+            localStorage.setItem('stockQtt', tmpstockQtt)
+            localStorage.setItem('spentMoney', tmpspentMoney)
 
-        setStockQtt(tmpstockQtt)
-        setSpentMoney(tmpspentMoney)
+            localStorage.setItem('krw', tmpKrw)
 
-        setEvalMoney(price * tmpstockQtt)
-        setAveragePrice(spentMoney / tmpstockQtt)
-        // 총 보유 krw 에서도 빼야하네 ..
-        setKrw(tmpKrw)
-        setTotalAsset(tmpKrw + (price * tmpstockQtt))
+            setStockQtt(tmpstockQtt)
+            setSpentMoney(tmpspentMoney)
+
+            setEvalMoney(price * tmpstockQtt)
+            setAveragePrice(tmpspentMoney / tmpstockQtt)
+            // 총 보유 krw 에서도 빼야하네 ..
+            setKrw(tmpKrw)
+            setTotalAsset(tmpKrw + (price * tmpstockQtt))
+        }
+
     }
 
     function cost() {

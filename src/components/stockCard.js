@@ -9,7 +9,7 @@ import { Divider, Grid } from '@mui/material';
 export default function StockCard({ price, stockQtt, spentMoney, averagePrice, evalMoney }) {
 
     const result = evalMoney - spentMoney
-    const roi = result / spentMoney * 100
+    const roi = result / spentMoney * 100 || 0
     return (
         <Card sx={{ minWidth: 275 }}>
             <CardContent>
@@ -32,7 +32,7 @@ export default function StockCard({ price, stockQtt, spentMoney, averagePrice, e
                     <Grid item xs={6}>
 
                         <Typography color={"text.secondary"}>매수평균가</Typography>
-                        <Typography color={"text.primary"}>{averagePrice}</Typography>
+                        <Typography color={"text.primary"}>{averagePrice || 0}</Typography>
                     </Grid>
                     <Grid item xs={6}>
                         <Typography color={"text.secondary"}>평가금액</Typography>
