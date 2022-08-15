@@ -187,7 +187,7 @@ export default function Home() {
 
     function cost() {
 
-        costRef.current.value = qttRef.current.value * price
+        costRef.current.value = (qttRef.current.value * price).toLocaleString()
     }
 
     return (
